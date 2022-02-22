@@ -1,9 +1,9 @@
 const { query, param, body } = require('express-validator');
 
 module.exports.userSignup = [
-    // body('name')
-    //     .isString()
-    //     .withMessage('Name must be a string.'),
+    body('name')
+        .isString()
+        .withMessage('Name must be a string.'),
     //.matches(/^[a-zA-z]+([ '’][a-zA-Z]+)*$/)
     //.withMessage('Name must be Alphabetic and space-delimited.'),
 

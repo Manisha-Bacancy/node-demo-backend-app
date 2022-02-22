@@ -1,12 +1,14 @@
 const express = require('express')
 const chalk = require('chalk');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const morgan = require('morgan');
 const app = express();
-// db config
-require('./src/config/db.config');
-// import all routes at once
-require('./src/config/routes.config')(app);
-//const userRouter = require('./src/app/routes/user.route')
+
+//app.use(express.json())
+//app.use(userRouter);
+
+
 
 // const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
@@ -16,8 +18,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
-//app.use(express.json())
-//app.use(userRouter);
+// providing a Connect/Express middleware that can be used to enable CORS with various options.
+app.use(cors());
+// Morgan helps you log the API endpoint
+app.use(morgan('dev'));
+
+// db config
+require('./src/config/db.config');
+// import all routes at once
+require('./src/config/routes.config')(app);
+// Handling non-existing routes
+require('./src/utils/error-handler.util')(app);
 
 app.listen(port,
     () => {

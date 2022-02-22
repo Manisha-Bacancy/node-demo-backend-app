@@ -1,4 +1,4 @@
-const express = require('express')
+//const express = require('express')
 // const User = require('../models/user.model');
 // const router = new express.Router();
 const { validate } = require('../../../validators');
@@ -6,9 +6,7 @@ const userValidator = require('../../../validators/user.validator');
 
 
 module.exports = app => {
-    const {
-        userSignup,
-    } = require('../controllers/user.controller');
+    const { userSignup, } = require('../controllers/user.controller');
 
     app.post('/users/signup',
         validate(userValidator.userSignup),

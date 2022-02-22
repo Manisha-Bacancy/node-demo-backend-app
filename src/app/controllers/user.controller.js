@@ -1,16 +1,19 @@
 // MODELS
+const { generateAuthToken } = require('../../utils/jwt.util');
 const userModel = require('../models/user.model');
+const { isValidObjectId } = require('mongoose');
 
 
 const userSignup = async (req, res, next) => {
     let { name, email, password } = req.body;
-
+    console.log("email::::::", typeof email);
     let user;
     try {
         try {
             user = await userModel.findOne({ email: email }).exec();
         }
         catch (err) {
+
             return next(err);
         }
 
@@ -29,11 +32,27 @@ const userSignup = async (req, res, next) => {
         });
 
         let userSavedObj = await newUserObj.save();
-        console.log("userSavedObj:::", userSavedObj)
+
+        let trimmedUser = {
+            _id: (userSavedObj._id).toString(),
+            name: userSavedObj.name,
+            email: userSavedObj.email,
+
+        };
+        //GENERATE AUTH TOKEN
+        let token = await generateAuthToken(
+            JSON.parse(JSON.stringify(trimmedUser)), false);
+        const obj = {
+            user: trimmedUser,
+            token: token
+        }
+
+        console.log("trimmedUser:::", trimmedUser)
+        console.log("userSavedObj:::", obj)
         return res.status(200).json({
             error: false,
             message: `Your Account has been created, please check your email.`,
-            data: {}
+            data: obj
         });
     } catch (e) {
         console.log("Error::::", e)
