@@ -19,7 +19,18 @@ const userSchema = new Schema({
         type: String,
         default: ''
     },
-
+    profileImage: {
+        type: String,
+        default: ''
+    },
+    description: {
+        type: String,
+        default: ''
+    },
+    isDefaultPassword: {
+        type: Boolean,
+        default: false
+    },
 });
 // HASH THE PASSWORD BEFORE SAVING TO DB
 userSchema.pre("save", function (next) {

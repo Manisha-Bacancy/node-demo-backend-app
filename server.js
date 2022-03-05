@@ -1,14 +1,13 @@
 const express = require('express')
 const chalk = require('chalk');
+const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const app = express();
+
 
 //app.use(express.json())
 //app.use(userRouter);
-
-
 
 // const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;

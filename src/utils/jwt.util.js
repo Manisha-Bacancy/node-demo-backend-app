@@ -24,7 +24,8 @@ module.exports.generateAuthToken = async (payload, isAuthToken = true) => {
 module.exports.validateAuthToken = async (req, res, next) => {
   const { authorization } = req.headers;
   if (authorization && authorization != '') {
-    jwt.verify(authorization, process.env.CIPHER_KEY, async (err, verified) => {
+    jwt.verify(authorization, 'thisismynewcourse', async (err, verified) => {
+      //jwt.verify(authorization, process.env.CIPHER_KEY, async (err, verified) => {
       if (err) {
         return res.status(401).json({
           error: true,
@@ -46,45 +47,45 @@ module.exports.validateAuthToken = async (req, res, next) => {
         }
 
         // CHECK IF THE USER IS VERIFIED OR NOT
-        if (userObj && !userObj.isVerified) {
-          return res.status(403).json({
-            error: true,
-            message: `Your email is not verified, Please login to the App in order to verify your account.`,
-            isVerified: false,
-            data: {},
-          });
-        }
+        // if (userObj && !userObj.isVerified) {
+        //   return res.status(403).json({
+        //     error: true,
+        //     message: `Your email is not verified, Please login to the App in order to verify your account.`,
+        //     isVerified: false,
+        //     data: {},
+        //   });
+        // }
 
         // CHECK IF THE USER IS ARCHIVED OR NOT
-        if (userObj && userObj.isArchived && userObj.isAdmin) {
-          return res.status(400).json({
-            error: true,
-            message: `Your account is deactivated, kindly contact Super Admin.`,
-            data: {},
-            isArchived: true,
-            isAdmin: true
-          });
-        }
-        else if (userObj && userObj.isArchived && !userObj.isAdmin) {
-          let message;
-          if (userObj.isArchivedOrUnarchivedByAdmin) {
-            message = `Your account is deactivated, kindly contact Super Admin.`;
-          }
-          else {
-            message = `Your account is deactivated, kindly login to the App to continue.`;
-          }
-          return res.status(400).json({
-            error: true,
-            message: message,
-            data: {},
-            isArchived: true,
-            isAdmin: false
-          });
-        }
-        else {
-          req.user = userObj;
-          next();
-        }
+        // if (userObj && userObj.isArchived && userObj.isAdmin) {
+        //   return res.status(400).json({
+        //     error: true,
+        //     message: `Your account is deactivated, kindly contact Super Admin.`,
+        //     data: {},
+        //     isArchived: true,
+        //     isAdmin: true
+        //   });
+        // }
+        // else if (userObj && userObj.isArchived && !userObj.isAdmin) {
+        //   let message;
+        //   if (userObj.isArchivedOrUnarchivedByAdmin) {
+        //     message = `Your account is deactivated, kindly contact Super Admin.`;
+        //   }
+        //   else {
+        //     message = `Your account is deactivated, kindly login to the App to continue.`;
+        //   }
+        //   return res.status(400).json({
+        //     error: true,
+        //     message: message,
+        //     data: {},
+        //     isArchived: true,
+        //     isAdmin: false
+        //   });
+        // }
+        // else {
+        //   req.user = userObj;
+        //   next();
+        // }
       }
     });
   }
